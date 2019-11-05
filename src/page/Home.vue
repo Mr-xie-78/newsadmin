@@ -5,11 +5,11 @@
                 黑马头条
             </div>
             <el-menu>
-                <el-menu-item index="2" @click="$router.push('/postlist')">
+                <el-menu-item index="2" @click="jumpPage('/postlist')">
                     <i class="el-icon-menu"></i>
                     <span slot="title">文章列表</span>
                 </el-menu-item>
-                <el-menu-item index="4" @click="$router.push('/editpost')">
+                <el-menu-item index="4" @click="jumpPage('/editpost')">
                     <i class="el-icon-setting"></i>
                     <span slot="title">发布文章</span>
                 </el-menu-item>
@@ -22,6 +22,9 @@
                 <img class="avatar" v-else src="../assets/logo.png" alt="">
                 <span class="nickname">{{user.nickname}}</span>
             </el-header>
+            <div class="meta" @click="$router.back()">
+                {{breadcrumb}}
+            </div>
             <el-main>
                 <router-view></router-view>
             </el-main>
@@ -33,7 +36,27 @@
 export default {
      data() {
         return {
-            user: JSON.parse(localStorage.getItem('user'))
+            user: JSON.parse(localStorage.getItem('user')),
+            mate:''
+        }
+    },
+    computed:{
+        // 监听路由变化，更改meta
+        breadcrumb(){
+            let res = '';
+            // console.log(this.$route)
+            this.$route.matched.forEach(e => {
+                res+=e.meta+'->'
+            });
+            return res
+        }
+    },
+    methods:{
+        // 再点击一次同样的路由会报错，所以，要判断路由是否哟改变
+        jumpPage(path){
+            if(path != this.$route.path){
+                this.$router.push(path)
+            }
         }
     }
 }
@@ -79,6 +102,9 @@ export default {
     color: #fff;
     text-align: center;
     line-height: 200px;
+  }
+  .meta{
+      margin: 10px 50px;
   }
 // 如果没样式，也有可能是标签误删了
 </style>
