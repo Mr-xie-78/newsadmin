@@ -33,10 +33,12 @@
           </el-upload>
       </el-form-item>
 
-    <el-form-item label="类型">
-        <el-radio v-model="form.type" label="1">文章</el-radio>
-        <el-radio v-model="form.type" label="2">视频</el-radio>
-    </el-form-item>
+     <el-form-item label="类型">
+          <el-radio-group v-model="form.type">
+              <el-radio :label="1">文章</el-radio>
+              <el-radio :label="2">视频</el-radio>
+          </el-radio-group>
+      </el-form-item>
 
     <el-form-item>
     <el-button type="primary" @click="onSubmit">提交</el-button>
