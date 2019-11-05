@@ -10,6 +10,13 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.config.productionTip = false
 
+axios.interceptors.request.use((config) => {
+  if(!config.headers.Authorization && localStorage.getItem('token')){
+    config.headers.Authorization = localStorage.getItem('token')
+  }
+  return config
+})
+
 // 引入 ui 库
 //注册组件库
 Vue.use(ElementUI);
@@ -17,7 +24,15 @@ Vue.use(ElementUI);
 // 绑定到原型
 Vue.prototype.$axios = axios;
 //设置默认的 api 域名
-axios.defaults.baseURL = "http://111.230.181.206:3000"
+axios.defaults.baseURL = "http://127.0.0.1:3000"
+
+Vue.prototype.$fixMig = function(url){
+  if(url.indexOf('http')<0){
+    return axios.defaults.baseURL + url
+  }else{
+    return url
+  }
+}
 
 /* eslint-disable no-new */
 new Vue({
