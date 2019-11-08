@@ -86,6 +86,17 @@ export default {
       changeSize(val){
         this.pageSize = val
         this.getPostList()
+      },
+      handleEdit(index,row){
+        // console.log(index,row);
+        this.$router.push({
+          // 别写错了路由，是？号后面带值
+          // path:'/editpost?id='+row.id
+          path:'/editpost',
+          query:{
+            id:row.id
+          }
+        })
       }
     }
 }
